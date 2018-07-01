@@ -14,3 +14,15 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/add-employee', 'EmployeeController@index');
+
+Route::post('/save-employee', 'EmployeeController@saveEmployee');
+
+Route::get('/update-employee/{id}', 'EmployeeController@updateEmployee');
+
+Route::post('/update-employee/{id}', 'EmployeeController@saveUpdatedEmployee');
