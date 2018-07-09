@@ -7,21 +7,17 @@
                 <form method="post" action="/save-employee">
                     @csrf
                     <br>
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{session('success')}}
-                        </div>
-                    @endif
-                    @if(session('warning'))
-                        <div class="alert alert-warning">
-                            {{session('warning')}}
-                        </div>
-                    @endif
-                    @if(session('danger'))
+
+                    @if ($errors->any())
                         <div class="alert alert-danger">
-                            {{session('danger')}}
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
+
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
@@ -38,19 +34,25 @@
                         <label for="salary">Salary:</label>
                         <input type="text" class="form-control" id="salary" placeholder="Enter salary" name="salary">
                     </div>
+                    <div class="form-group">
+                        <label for="skills">Skills:</label>
+                        <input type="text" class="form-control" id="skills" placeholder="Comma separated skills" name="skills">
+                    </div>
 
                     <button type="submit" class="btn btn-primary">Add employee</button>
                 </form>
 
                 <br>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="employeeTable">
                         <thead>
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
                             <th>Salary</th>
+                            <th>Skills</th>
+                            <th>Update</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,6 +62,7 @@
                                 <td>{{$employee->email}}</td>
                                 <td>{{$employee->role}}</td>
                                 <td>{{$employee->salary}}</td>
+                                <td>{{$employee->skills}}</td>
                                 <td><a href="update-employee/{{$employee->id}}">Edit</a></td>
                             </tr>
                         @endforeach
@@ -69,4 +72,13 @@
             </div>
         </div>
     </div>
+@endsection
+@section('table-script')
+    <script>
+        $(document).ready( function () {
+            $('#employeeTable').DataTable({
+                "lengthMenu": [ [2, 3, 5, -1], ["Two", "Three", "Five", "All"] ]
+            });
+        } );
+    </script>
 @endsection

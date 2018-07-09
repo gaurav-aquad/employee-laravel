@@ -7,21 +7,17 @@
                 <form method="post" action="/update-employee/{{$employee->id}}">
                     @csrf
                     <br>
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{session('success')}}
-                        </div>
-                    @endif
-                    @if(session('warning'))
-                        <div class="alert alert-warning">
-                            {{session('warning')}}
-                        </div>
-                    @endif
-                    @if(session('danger'))
+
+                    @if ($errors->any())
                         <div class="alert alert-danger">
-                            {{session('danger')}}
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
+
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="{{$employee->name}}">
@@ -37,6 +33,10 @@
                     <div class="form-group">
                         <label for="salary">Salary:</label>
                         <input type="text" class="form-control" id="salary" placeholder="Enter salary" name="salary" value="{{$employee->salary}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="skills">Skills:</label>
+                        <input type="text" class="form-control" id="skills" placeholder="Comma separated skills" name="skills" value="{{$employee->skills}}">
                     </div>
 
                     <button type="submit" class="btn btn-success">Update employee</button>
